@@ -641,19 +641,33 @@
     const setup = function () {
         setTimer();
 
-        $('.form-check').click(selectOption);
-        $('#btn-previous').click(prevStep);
+        setFormActions();
 
+        setModal();
+
+        setDayOptions();
+
+        setMonthOptions();
+
+        setYearOptions();
+    };
+
+    const setModal = function () {
         const options = {
             backdrop: 'static'
         };
         const registerModal = new bootstrap.Modal('#registerModal', options);
         registerModal.show();
-    };
+    }
 
-    const nextStep = function () {
+    const setFormActions = function () {
+        $('.form-check').click(onFormCheck);
+        $('#btn-previous').click(onPrevStep);
+    }
+
+    const onNextStep = function () {
         currentStep += 1;
-        handleStep();
+        processStep();
 
         let step = Array.from(FORM_STEPS).find(item => item.step === currentStep);
 
@@ -662,17 +676,17 @@
         })
     };
 
-    const prevStep = function () {
+    const onPrevStep = function () {
         let step = Array.from(FORM_STEPS).find(item => item.step === currentStep);
         step.fields.forEach(field => {
             $('#' + field).removeAttr("required");
         })
 
         currentStep -= 1;
-        handleStep();
+        processStep();
     };
 
-    const handleStep = function () {
+    const processStep = function () {
         $('.step').addClass('d-none');
         $('#step-' + currentStep).removeClass('d-none');
 
@@ -688,10 +702,58 @@
         }
     }
 
-    const TIMER_MIN_LIMIT = 5;
-    const TIMER_SEC_LIMIT = 60;
-    let timerMinutes = TIMER_MIN_LIMIT - 1;
-    let timerSeconds = TIMER_SEC_LIMIT;
+    const MINUTES_LIMIT = 5;
+    const SECONDS_LIMIT = 60;
+    let timerMinutes = MINUTES_LIMIT - 1;
+    let timerSeconds = SECONDS_LIMIT;
+
+    const setDayOptions = function () {
+        const days = Array.from({length: 31}, (_, i) => i + 1);
+
+        let dayOptions = ''
+        days.forEach(day => {
+            dayOptions += `<option value="${day}">${day < 10 ? '0' + day : day}</option>`
+        })
+        $('#dobday').append(dayOptions)
+    }
+    const setMonthOptions = function () {
+        const months = [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December"
+        ];
+
+        let monthOptions = ''
+        months.forEach((month, index) => {
+            monthOptions += `<option value="${index + 1}">${month}</option>`
+        })
+        $('#dobmonth').append(monthOptions)
+    }
+    const setYearOptions = function () {
+        const AGE_LOWER_LIMIT = 16; // approx: over 18 years
+        const AGE_UPPER_LIMIT = 100; // approx: under 100 years
+
+        const years = Array.from({length: AGE_UPPER_LIMIT - AGE_LOWER_LIMIT}, (_, i) => i + AGE_LOWER_LIMIT);
+
+        const d = new Date();
+        document.write("The current getFullYear is " + months[d.getFullYear()]);
+        document.write("The current date is " + months[d]);
+
+        let yearOptions = ''
+        years.forEach((year, index) => {
+            yearOptions += `<option value="${year}">${year}</option>`
+        })
+        $('#dobyear').append(yearOptions)
+    }
 
     const setTimer = function () {
         let timerValue = '';
@@ -701,11 +763,11 @@
 
             if (timerSeconds < 0) {
                 timerMinutes -= 1;
-                timerSeconds = TIMER_SEC_LIMIT;
+                timerSeconds = SECONDS_LIMIT;
             }
 
             if (timerMinutes < 0) {
-                timerMinutes = TIMER_MIN_LIMIT - 1;
+                timerMinutes = MINUTES_LIMIT - 1;
             }
 
             timerValue = `0${timerMinutes}:${timerSeconds >= 10 ? timerSeconds : '0' + timerSeconds}`;
@@ -713,22 +775,22 @@
         }, 1000);
     };
 
-    const selectOption = function () {
+    const onFormCheck = function () {
         const formCheck = $(this);
 
         const dataId = formCheck.attr('data-id');
 
         const inputElement = formCheck.find('input');
         const btnElement = formCheck.find('.btn');
+        const isChecked = inputElement.prop('checked');
 
-        const selectAll = $('.form-check[data-id=' + dataId + '] .btn');
-        selectAll.removeClass('btn-primary');
-        selectAll.addClass('btn-outline-primary');
+        const btnElements = $('.form-check[data-id=' + dataId + '] .btn');
 
-        toggleClass(btnElement, inputElement.prop('checked'));
+        toggleCheck(btnElements, false);
+        toggleCheck(btnElement, isChecked);
     };
 
-    const toggleClass = function (selector, toggle) {
+    const toggleCheck = function (selector, toggle) {
         if (toggle) {
             selector.removeClass('btn-outline-primary');
             selector.addClass('btn-primary');
@@ -738,13 +800,7 @@
         }
     }
 
-    $(document).ready(function () {
-        setup();
-    });
-
-    (() => {
-        'use strict'
-
+    const validateForm = function () {
         // Fetch all the forms we want to apply custom Bootstrap validation styles to
         const forms = document.querySelectorAll('.needs-validation')
 
@@ -758,8 +814,8 @@
 
                 if (currentStep < TOTAL_STEPS) {
                     if (form.checkValidity()) {
-                        nextStep();
-                    }else {
+                        onNextStep();
+                    } else {
                         form.classList.add('was-validated')
                     }
                 } else if (form.checkValidity()) {
@@ -768,6 +824,15 @@
                 }
             }, true)
         })
+    }
+
+    $(document).ready(function () {
+        setup();
+    });
+
+    (() => {
+        'use strict'
+       validateForm()
     })()
 </script>
 </body>
