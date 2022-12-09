@@ -152,7 +152,7 @@ form-check-input:focus {
 }
 
 .alert-success {
-    --bs-alert-color: #04AA6D;
-    --bs-alert-bg: #aad8c9;
-    --bs-alert-border-color: #04AA6D;
+    --bs-alert-color: #bc1925;
+    --bs-alert-bg: #410b0f;
+    --bs-alert-border-color: #bc1925;
 }
