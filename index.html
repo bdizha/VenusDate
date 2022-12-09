@@ -57,7 +57,7 @@
                                     <label for="gender_m" class="btn btn-block btn-primary">
                                         <input type="radio" class="form-check-input" value="m"
                                                name="gender"
-                                               id="gender_m" checked="checked">
+                                               id="gender_m" checked>
                                         A man
                                     </label>
                                 </div>
@@ -76,22 +76,22 @@
                     <div id="step-2" class="step d-none form-group" data-step="2">
                         <label for="looking_for_gender_m" class="form-label">Seeking</label>
                         <div class="row mx-n2">
-                            <div class="col-sm-6 col-6 px-2">
+                            <div class="col-6 col-sm-6px-2">
                                 <div class="form-check" data-id="form-seeking-gender">
                                     <label for="looking_for_gender_m" class="btn btn-block btn-outline-primary">
-                                        <input type="radio" class="form-check-input" name="gender"
+                                        <input type="radio" class="form-check-input" name="looking_for_gender"
                                                id="looking_for_gender_m"
                                                value="m"/>
                                         A man
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-sm-6 col-6 px-2">
+                            <div class="col-6 col-sm-6px-2">
                                 <div class="form-check" data-id="form-seeking-gender">
                                     <label for="looking_for_gender_f" class="btn btn-block btn-primary">
-                                        <input checked type="radio" class="form-check-input" name="gender"
+                                        <input type="radio" class="form-check-input" name="looking_for_gender"
                                                id="looking_for_gender_f"
-                                               value="f"/>
+                                               value="f" checked/>
                                         A women
                                     </label>
                                 </div>
@@ -194,7 +194,7 @@
                                 </button>
                             </div>
                             <div class="col-12 d-none">
-                                Already have an account? <a href="#login">Login here</a>.
+                                Already have an account? <a href="/#login">Login here</a>.
                             </div>
                         </div>
                     </div>
@@ -310,6 +310,7 @@
         $('#step-' + currentStep).removeClass('d-none');
 
         if (currentStep == 1) {
+            $('input:radio[name="gender"]').filter('[value="m"]').attr('checked', true);
             $('#btn-previous').parent().addClass('d-none');
         } else if (currentStep < TOTAL_STEPS) {
             $('#btn-previous').parent().removeClass('d-none');
