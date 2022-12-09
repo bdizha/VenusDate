@@ -52,7 +52,7 @@
                     <div id="step-1" class="step form-group" data-step="1">
                         <label for="gender_m" class="form-label">I am</label>
                         <div class="row mx-n2">
-                            <div class="col-sm-6 px-2">
+                            <div class="col-12 col-sm-6 px-2 py-2">
                                 <div class="form-check" data-id="form-gender">
                                     <label for="gender_m" class="btn btn-block btn-primary">
                                         <input type="radio" class="form-check-input" value="m"
@@ -62,7 +62,7 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-sm-6 px-2">
+                            <div class="col-12 col-sm-6 px-2 py-2">
                                 <div class="form-check" data-id="form-gender">
                                     <label class="btn btn-block btn-outline-primary" for="gender_f">
                                         <input type="radio" class="form-check-input" value="f" name="gender"
@@ -76,7 +76,7 @@
                     <div id="step-2" class="step d-none form-group" data-step="2">
                         <label for="looking_for_gender_m" class="form-label">Seeking</label>
                         <div class="row mx-n2">
-                            <div class="col-6 col-sm-6px-2">
+                            <div class="col-12 col-12 col-sm-6 px-2 py-2">
                                 <div class="form-check" data-id="form-seeking-gender">
                                     <label for="looking_for_gender_m" class="btn btn-block btn-outline-primary">
                                         <input type="radio" class="form-check-input" name="looking_for_gender"
@@ -86,7 +86,7 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-6 col-sm-6px-2">
+                            <div class="col-12 col-12 col-sm-6 px-2 py-2">
                                 <div class="form-check" data-id="form-seeking-gender">
                                     <label for="looking_for_gender_f" class="btn btn-block btn-primary">
                                         <input type="radio" class="form-check-input" name="looking_for_gender"
@@ -109,7 +109,7 @@
                     <div id="step-4" class="step d-none form-group" data-step="4">
                         <label for="looking_for_gender_m" class="form-label">Date of Birth</label>
                         <div class="row mx-n2">
-                            <div class="col-4-sm px-2">
+                            <div class="col-12 col-4-sm px-2 py-2">
                                 <select class="form-control" name="dobday" id="dobday">
                                     <option value="">Day</option>
                                 </select>
@@ -117,7 +117,7 @@
                                     Required.
                                 </div>
                             </div>
-                            <div class="col-4-sm px-2">
+                            <div class="col-12 col-4-sm px-2 py-2">
                                 <select class="form-control" name="dobmonth" id="dobmonth">
                                     <option value="">Month</option>
                                 </select>
@@ -125,7 +125,7 @@
                                     Required.
                                 </div>
                             </div>
-                            <div class="col-4-sm px-2">
+                            <div class="col-12 col-4-sm px-2 py-2">
                                 <select class="form-control" name="dobyear" id="dobyear">
                                     <option value="">Year</option>
                                 </select>
@@ -438,6 +438,8 @@
                 } else if (form.checkValidity()) {
                     $('#alert-success').removeClass('d-none');
                     $('#registerForm, .register-timer').addClass('d-none');
+                } else {
+                    form.classList.add('was-validated')
                 }
             }, true)
         })
@@ -449,7 +451,7 @@
 
     (() => {
         'use strict'
-       validateForm()
+        validateForm()
     })()
 </script>
 </body>
